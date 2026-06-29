@@ -22,7 +22,10 @@ Only two tests in `pretext_py/layout_test.py` currently fail, because the built�
 
 ## Demo
 
-Currently only one demo has been ported: [dragon_fast.py](/dragon_fast.py). Due to font and `pygame` limitations, some characters (e.g., Arabic and emoji) may not render correctly.
+Currently two demos have been ported:
+
+1. [dragon_fast.py](/dragon_fast.py) – Due to font and pygame limitations, some characters (e.g., Arabic and emoji) may not render correctly.
+2. [editorial_engine.py](/editorial_engine.py) – Renders very well with excellent visual effects.
 
 ---
 
@@ -50,5 +53,7 @@ Currently only one demo has been ported: [dragon_fast.py](/dragon_fast.py). Due 
 
 ## 示例
 
-目前仅还原了一个示例：[dragon_fast.py](/dragon_fast.py)。由于字体和 `pygame` 的限制，某些文字（如阿拉伯语和 emoji）可能无法正常渲染。
+目前还原了两个示例：
 
+1. [dragon_fast.py](/dragon_fast.py) – 由于字体和 pygame 的限制，部分文字（如阿拉伯语和 emoji）可能无法正常渲染。
+2. [editorial_engine.py](/editorial_engine.py) – 渲染效果非常出色，视觉效果极佳。
