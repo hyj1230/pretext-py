@@ -1,5 +1,5 @@
 ![](/demo_editorial_engine.png)  
-![](/demo_dragon.png)
+![](/demo_dragon.jpg)
 
 ## English:
 
