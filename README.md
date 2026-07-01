@@ -1,3 +1,4 @@
+![](/screenshot_computer.jpg)
 ![](/demo_editorial_engine.png)  
 ![](/demo_dragon.jpg)
 
