@@ -1220,31 +1220,62 @@ def test_layout_invariants():
     widths = [40, 80, 120, 200]
 
     def check_prepared_consistency(prepared):
-        """检查 breakableFitAdvances 与 graphemes 的长度是否一致"""
+        """
+        检查 breakable 数据自身的一致性：
+        - preferredBreaks 中的断点不能超过 fitAdvances 的长度
+        同时输出疑似段落信息供人工核对。
+        """
         kinds = prepared['kinds']
         widths = prepared['widths']
         bfa = prepared['breakableFitAdvances']
-        graphemes = prepared['graphemes']  # 假设 prepared 中有此字段
-        for i, ((kind, w, advances), g) in enumerate(zip(zip(kinds, widths, bfa), graphemes)):
+        preferred = prepared['breakablePreferredBreaks']
+        segments = prepared['segments']  # 字符串列表
+
+        for i, (kind, w, advances, pbreaks, seg_str) in enumerate(
+            zip(kinds, widths, bfa, preferred, segments)
+        ):
             if advances is not None:
-                if len(advances) != len(g):
-                    print(f'[DATA BUG] segment {i}: kind={kind!r}, width={w}, '
-                          f'breakableFitAdvances len={len(advances)}, '
-                          f'graphemes len={len(g)}')
+                max_adv = len(advances)
+                if pbreaks is not None:
+                    for bp in pbreaks:
+                        if bp > max_adv:
+                            print(f'[DATA BUG] segment {i}: preferredBreak {bp} > len(fitAdvances) {max_adv}')
+                # 可选：打印 fitAdvances 长度和段落字符串，方便手动检查字素数
+                # print(f'  segment {i}: kind={kind!r}, seg_str={seg_str!r}, fitAdv len={max_adv}')
+            else:
+                # 非断行段，如果 preferredBreaks 非空也属异常
+                if pbreaks is not None and len(pbreaks) > 0:
+                    print(f'[DATA BUG] segment {i}: non‑null preferredBreaks but breakableFitAdvances is None')
 
     for text in cases:
         prepared = prepareWithSegments(text, FONT)
         expected = ''.join(map(str, prepared['segments']))
+
+        # 每份 prepared 只检查一次
         check_prepared_consistency(prepared)
 
         for width in widths:
-            batched = layoutWithLines(prepared, width, LINE_HEIGHT)
-            streamed = collectStreamedLines(prepared, width)
-    
-            assert (reconstructFromLineBoundaries(prepared, batched['lines'])) == (expected)
-            assert (reconstructFromLineBoundaries(prepared, streamed)) == (expected)
-            assert (reconstructFromWalkedRanges(prepared, width)) == (expected)
+            try:
+                batched = layoutWithLines(prepared, width, LINE_HEIGHT)
+                streamed = collectStreamedLines(prepared, width)
 
+                assert reconstructFromLineBoundaries(prepared, batched['lines']) == expected
+                assert reconstructFromLineBoundaries(prepared, streamed) == expected
+                assert reconstructFromWalkedRanges(prepared, width) == expected
+            except IndexError as e:
+                print(f'\n!!! IndexError caught for text={text!r}, width={width}')
+                print(f'Error: {e}')
+                # 再次打印详细信息
+                check_prepared_consistency(prepared)
+                # 可选：单独打印所有断行段的信息
+                print('Details of breakable segments:')
+                bfa = prepared['breakableFitAdvances']
+                preferred = prepared['breakablePreferredBreaks']
+                segments = prepared['segments']
+                for i, (adv, pbr, seg_str) in enumerate(zip(bfa, preferred, segments)):
+                    if adv is not None:
+                        print(f'  seg {i}: seg_str={seg_str!r}, fitAdvances len={len(adv)}, preferredBreaks={pbr}')
+                raise  # 重新抛出以保留原始堆栈，或改为 break 继续下一个用例
 
     print('soft-hyphen round-trip uses source slices instead of rendered line text')
     prepared = prepareWithSegments('foo trans\u00ADatlantic', FONT)
