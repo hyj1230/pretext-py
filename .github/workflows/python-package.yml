@@ -11,15 +11,11 @@ on:
 
 jobs:
   build:
-    runs-on: ${{ matrix.os }}
+    runs-on: ${{ matrix.python-version == '3.7' && 'ubuntu-20.04' || 'ubuntu-latest' }}
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-20.04, ubuntu-latest]
         python-version: ["3.7", "3.8", "3.9", "3.10", "3.11", "3.12"]
-        exclude:
-          - os: ubuntu-latest
-            python-version: "3.7"   # 3.7 只跑在 20.04 上
 
     steps:
     - uses: actions/checkout@v4
