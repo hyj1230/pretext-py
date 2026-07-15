@@ -342,7 +342,7 @@ def walkPreparedLinesSimple(prepared, maxWidth, onLine=None):
                 lineEndGraphemeIndex = g + 1
 
             graphemeEnd = g + 1
-            if preferredBreaks is not None and preferredBreakIndex < len(preferredBreaks) and preferredBreaks[preferredBreakIndex] == graphemeEnd:
+            if preferredBreaks is not None and 0 <= preferredBreakIndex < len(preferredBreaks) and preferredBreaks[preferredBreakIndex] == graphemeEnd:
                 lastPreferredBreakEnd = graphemeEnd
                 lastPreferredBreakWidth = lineW
                 preferredBreakIndex += 1
@@ -550,7 +550,7 @@ def walkPreparedLinesRaw(prepared, maxWidth, onLine=None):
                     lineEndGraphemeIndex = g + 1
 
             graphemeEnd = g + 1
-            if preferredBreaks is not None and preferredBreakIndex < len(preferredBreaks) and preferredBreaks[preferredBreakIndex] == graphemeEnd:
+            if preferredBreaks is not None and 0 <= preferredBreakIndex < len(preferredBreaks) and preferredBreaks[preferredBreakIndex] == graphemeEnd:
                 lastPreferredBreakEnd = graphemeEnd
                 lastPreferredBreakWidth = lineW
                 preferredBreakIndex += 1
@@ -773,7 +773,7 @@ def stepPreparedChunkLineGeometry(prepared, cursor, chunkIndex, maxWidth):
                 lineEndGraphemeIndex = g + 1
 
             graphemeEnd = g + 1
-            if preferredBreaks is not None and preferredBreakIndex < len(preferredBreaks) and preferredBreaks[preferredBreakIndex] == graphemeEnd:
+            if preferredBreaks is not None and 0 <= preferredBreakIndex < len(preferredBreaks) and preferredBreaks[preferredBreakIndex] == graphemeEnd:
                 lastPreferredBreakEnd = graphemeEnd
                 lastPreferredBreakWidth = lineW
                 preferredBreakIndex += 1
@@ -906,7 +906,7 @@ def stepPreparedSimpleLineGeometry(prepared, cursor, maxWidth):
                 lineW = firstGraphemeWidth
                 lineEndSegmentIndex = i
                 lineEndGraphemeIndex = startGraphemeIndex + 1
-                if preferredBreaks is not None and preferredBreakIndex < len(preferredBreaks) and preferredBreaks[preferredBreakIndex] == lineEndGraphemeIndex:
+                if preferredBreaks is not None and 0 <= preferredBreakIndex < len(preferredBreaks) and preferredBreaks[preferredBreakIndex] == lineEndGraphemeIndex:
                     lastPreferredBreakEnd = lineEndGraphemeIndex
                     lastPreferredBreakWidth = lineW
                     preferredBreakIndex += 1
@@ -924,7 +924,7 @@ def stepPreparedSimpleLineGeometry(prepared, cursor, maxWidth):
                     lineW += gw
                     lineEndSegmentIndex = i
                     lineEndGraphemeIndex = g + 1
-                    if preferredBreaks is not None and preferredBreakIndex < len(preferredBreaks) and preferredBreaks[preferredBreakIndex] == lineEndGraphemeIndex:
+                    if preferredBreaks is not None and 0 <= preferredBreakIndex < len(preferredBreaks) and preferredBreaks[preferredBreakIndex] == lineEndGraphemeIndex:
                         lastPreferredBreakEnd = lineEndGraphemeIndex
                         lastPreferredBreakWidth = lineW
                         preferredBreakIndex += 1
