@@ -37,7 +37,7 @@ Currently two demos have been ported:
 
 # Pretext-py
 
-使用 Python 重写的 [chenglou/pretext](https://github.com/chenglou/pretext/commit/796b4691ca782ec44df9eb5d470abeca4d25732f) —— 快速、准确、简洁的文本测量与布局。
+使用 Python 重写的 [chenglou/pretext](https://github.com/chenglou/pretext/commit/ac49b09b7d83ede19581fa94a8b892b07d309baf) —— 快速、准确、简洁的文本测量与布局。
 
 ## 兼容性
 
