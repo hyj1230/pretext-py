@@ -261,8 +261,7 @@ def walkPreparedLinesSimple(prepared, maxWidth, onLine=None):
         pendingBreakPaintWidth = 0
 
     def emitCurrentLine(endSegmentIndex=None, endGraphemeIndex=None, width=None):
-        nonlocal lineCount, lineW, hasContent, lineStartSegmentIndex, lineStartGraphemeIndex
-        nonlocal lineEndSegmentIndex, lineEndGraphemeIndex, pendingBreakSegmentIndex, pendingBreakPaintWidth
+        nonlocal lineCount, lineW, hasContent
         if endSegmentIndex is None:
             endSegmentIndex = lineEndSegmentIndex
         if endGraphemeIndex is None:
@@ -303,7 +302,7 @@ def walkPreparedLinesSimple(prepared, maxWidth, onLine=None):
         lineW = width
 
     def appendWholeSegment(segmentIndex, width):
-        nonlocal hasContent, lineW, lineEndSegmentIndex, lineEndGraphemeIndex
+        nonlocal lineW, lineEndSegmentIndex, lineEndGraphemeIndex
         if not hasContent:
             startLineAtSegment(segmentIndex, width)
             return
@@ -312,8 +311,7 @@ def walkPreparedLinesSimple(prepared, maxWidth, onLine=None):
         lineEndGraphemeIndex = 0
 
     def appendBreakableSegmentFrom(segmentIndex, startGraphemeIndex):
-        nonlocal hasContent, lineW, lineEndSegmentIndex, lineEndGraphemeIndex
-        nonlocal pendingBreakSegmentIndex, pendingBreakPaintWidth, lineCount
+        nonlocal lineW, lineEndSegmentIndex, lineEndGraphemeIndex
         fitAdvances = breakableFitAdvances[segmentIndex]
         preferredBreaks = breakablePreferredBreaks[segmentIndex] if segmentIndex < len(breakablePreferredBreaks) else None
         preferredBreakIndex = -1 if preferredBreaks is None else getNextPreferredBreakIndex(preferredBreaks, 0, startGraphemeIndex + 1)
@@ -455,8 +453,7 @@ def walkPreparedLinesRaw(prepared, maxWidth, onLine=None):
         return lineW
 
     def emitCurrentLine(endSegmentIndex=None, endGraphemeIndex=None, width=None):
-        nonlocal lineCount, lineW, hasContent, lineStartSegmentIndex, lineStartGraphemeIndex
-        nonlocal lineEndSegmentIndex, lineEndGraphemeIndex, pendingBreakSegmentIndex, pendingBreakFitWidth, pendingBreakPaintWidth, pendingBreakKind
+        nonlocal lineCount, lineW, hasContent
         if endSegmentIndex is None:
             endSegmentIndex = lineEndSegmentIndex
         if endGraphemeIndex is None:
@@ -499,7 +496,7 @@ def walkPreparedLinesRaw(prepared, maxWidth, onLine=None):
         lineW = width
 
     def appendWholeSegment(segmentIndex, advance):
-        nonlocal hasContent, lineW, lineEndSegmentIndex, lineEndGraphemeIndex
+        nonlocal lineW, lineEndSegmentIndex, lineEndGraphemeIndex
         if not hasContent:
             startLineAtSegment(segmentIndex, advance)
             return
@@ -519,8 +516,7 @@ def walkPreparedLinesRaw(prepared, maxWidth, onLine=None):
         pendingBreakKind = kind
 
     def appendBreakableSegmentFrom(segmentIndex, startGraphemeIndex):
-        nonlocal hasContent, lineW, lineEndSegmentIndex, lineEndGraphemeIndex
-        nonlocal pendingBreakSegmentIndex, pendingBreakFitWidth, pendingBreakPaintWidth, pendingBreakKind, lineCount
+        nonlocal lineW, lineEndSegmentIndex, lineEndGraphemeIndex
         fitAdvances = breakableFitAdvances[segmentIndex]
         preferredBreaks = breakablePreferredBreaks[segmentIndex] if segmentIndex < len(breakablePreferredBreaks) else None
         preferredBreakIndex = -1 if preferredBreaks is None else getNextPreferredBreakIndex(preferredBreaks, 0, startGraphemeIndex + 1)
@@ -563,7 +559,7 @@ def walkPreparedLinesRaw(prepared, maxWidth, onLine=None):
             lineEndGraphemeIndex = 0
 
     def emitEmptyChunk(chunk):
-        nonlocal lineCount, pendingBreakSegmentIndex, pendingBreakFitWidth, pendingBreakPaintWidth, pendingBreakKind
+        nonlocal lineCount
         lineCount += 1
         if onLine is not None:
             onLine(0, chunk['startSegmentIndex'], 0, chunk['consumedEndSegmentIndex'], 0)
@@ -697,8 +693,6 @@ def stepPreparedChunkLineGeometry(prepared, cursor, chunkIndex, maxWidth):
         return lineW
 
     def finishLine(endSegmentIndex=None, endGraphemeIndex=None, width=None):
-        nonlocal hasContent, lineW, lineEndSegmentIndex, lineEndGraphemeIndex
-        nonlocal pendingBreakSegmentIndex, pendingBreakFitWidth, pendingBreakPaintWidth, pendingBreakKind
         if not hasContent:
             return None
         if endSegmentIndex is None:
@@ -730,7 +724,7 @@ def stepPreparedChunkLineGeometry(prepared, cursor, chunkIndex, maxWidth):
         lineW = width
 
     def appendWholeSegment(segmentIndex, advance):
-        nonlocal hasContent, lineW, lineEndSegmentIndex, lineEndGraphemeIndex
+        nonlocal lineW, lineEndSegmentIndex, lineEndGraphemeIndex
         if not hasContent:
             startLineAtSegment(segmentIndex, advance)
             return
@@ -750,8 +744,7 @@ def stepPreparedChunkLineGeometry(prepared, cursor, chunkIndex, maxWidth):
         pendingBreakKind = kind
 
     def appendBreakableSegmentFrom(segmentIndex, startGraphemeIndex):
-        nonlocal hasContent, lineW, lineEndSegmentIndex, lineEndGraphemeIndex
-        nonlocal pendingBreakSegmentIndex, pendingBreakFitWidth, pendingBreakPaintWidth, pendingBreakKind
+        nonlocal lineW, lineEndSegmentIndex, lineEndGraphemeIndex
         fitAdvances = breakableFitAdvances[segmentIndex]
         preferredBreaks = breakablePreferredBreaks[segmentIndex] if segmentIndex < len(breakablePreferredBreaks) else None
         if preferredBreaks is None:
