@@ -415,7 +415,6 @@ def pointermove(_event):
 
 
 def pointerup(_event):
-    global activeOrb
     if activeOrb is not None:
         dx = _event.pos[0] - activeOrb['dragStartX']
         dy = _event.pos[1] - activeOrb['dragStartY']
