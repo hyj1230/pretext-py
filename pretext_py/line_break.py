@@ -117,6 +117,8 @@ def getNextPreferredBreakIndex(
   graphemeEnd,
 ):
     index = preferredBreakIndex
+    if index == -1:
+        return index
     while index < len(preferredBreaks) and preferredBreaks[index] < graphemeEnd:
         index += 1
     return index
