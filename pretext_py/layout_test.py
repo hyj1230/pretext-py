@@ -1207,7 +1207,8 @@ def test_layout_invariants():
 
     assert (layoutNextLine(prepared, terminalCursor(prepared), width)) is None
 
-
+    setLocale(None)
+    clearCache()
     print('rich line boundary cursors reconstruct normalized source text exactly')
     cases = [
       'a b c',
