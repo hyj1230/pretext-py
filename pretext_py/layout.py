@@ -128,7 +128,7 @@ def buildBaseCjkUnits(segText: String, engineProfile):
     unitIsSingleKinsokuEnd = False
 
     def pushUnit():
-        nonlocal unitParts, unitStart, unitContainsCJK, unitEndsWithClosingQuote, unitIsSingleKinsokuEnd
+        nonlocal unitParts, unitContainsCJK, unitEndsWithClosingQuote, unitIsSingleKinsokuEnd
         if len(unitParts) == 0: return
         units.append({
           'text': joinTextParts(unitParts),
@@ -148,7 +148,7 @@ def buildBaseCjkUnits(segText: String, engineProfile):
         unitIsSingleKinsokuEnd = str(grapheme) in kinsokuEnd
 
     def appendToUnit(grapheme: String, graphemeContainsCJK: bool):
-        nonlocal unitParts, unitStart, unitContainsCJK, unitEndsWithClosingQuote, unitIsSingleKinsokuEnd
+        nonlocal unitContainsCJK, unitEndsWithClosingQuote, unitIsSingleKinsokuEnd
         unitParts.append(grapheme)
         unitContainsCJK = unitContainsCJK or graphemeContainsCJK
         graphemeEndsWithClosingQuote = endsWithClosingQuote(grapheme)
