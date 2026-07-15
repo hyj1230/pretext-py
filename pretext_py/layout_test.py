@@ -1219,9 +1219,23 @@ def test_layout_invariants():
     ]
     widths = [40, 80, 120, 200]
 
+    def check_prepared_consistency(prepared):
+        """检查 breakableFitAdvances 与 graphemes 的长度是否一致"""
+        kinds = prepared['kinds']
+        widths = prepared['widths']
+        bfa = prepared['breakableFitAdvances']
+        graphemes = prepared['graphemes']  # 假设 prepared 中有此字段
+        for i, ((kind, w, advances), g) in enumerate(zip(zip(kinds, widths, bfa), graphemes)):
+            if advances is not None:
+                if len(advances) != len(g):
+                    print(f'[DATA BUG] segment {i}: kind={kind!r}, width={w}, '
+                          f'breakableFitAdvances len={len(advances)}, '
+                          f'graphemes len={len(g)}')
+
     for text in cases:
         prepared = prepareWithSegments(text, FONT)
         expected = ''.join(map(str, prepared['segments']))
+        check_prepared_consistency(prepared)
 
         for width in widths:
             batched = layoutWithLines(prepared, width, LINE_HEIGHT)
